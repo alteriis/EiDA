@@ -1,4 +1,4 @@
-function leading_eigenvectors = compute_leading_eigen_pearson(timeseries,half_window_size,verbose,group_size, label_names) % YOU CAN EASILY INSERT THE THRESHOLD IF NECESSARY
+function leading_eigenvectors = compute_leading_eigen_pearson_mod(timeseries,half_window_size,verbose,group_size, label_names) % YOU CAN EASILY INSERT THE THRESHOLD IF NECESSARY
 % here I compute pearson correlation matrices using a sliding window. Then
 % I take eigenvectors to do dimensionality reduction
 
@@ -26,8 +26,11 @@ for t=1:n
     end
     [v1,~]=eigs(istantaneous_conn_matrix,1); % here you may want to specify more than 1 eigenvector
     leading_eigenvectors(:,t) = v1; 
+end
 
 end
+
+
 
 
 

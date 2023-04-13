@@ -27,5 +27,5 @@
         'Prices', 'Stock Market'};
 
    addpath '/Users/giuliadesanctis/Documents/MATLAB/EiDA/functions/eida'
-   Copy_of_compute_leading_eigen_pearson(all_groups,100, true, group_size, label_names) 
+   compute_leading_eigen_pearson_mod(all_groups,100, true, group_size, label_names) 
    % no idea if 10 is an acceptable size for half window size

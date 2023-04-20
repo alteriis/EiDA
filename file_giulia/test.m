@@ -17,15 +17,29 @@
    % we recompose the data in the right order
    all_groups = [group_1, group_2, group_3, group_4, group_5, group_6, group_7, group_8];
 
-   % we find the size of each group
-   group_size = [size(group_1,2), size(group_2,2), size(group_3,2), size(group_4,2), ...
-        size(group_5,2), size(group_6,2), size(group_7,2), size(group_8,2)];
+   % we now create a cell which contains a number of sub-cells equal to the
+   % number of groups and each subcell contains that group's label and the
+   % number of variables that belong to that group
 
-   % vector to store the label names for each group
-   label_names = {'Output and Income', 'Labour Market', 'Consumption and Orders', ...
-        'Orders and Inventories', 'Money and Credit', 'Interest Rate and Exchange Rates', ...
-        'Prices', 'Stock Market'};
+   specifics = {{'Output and Income', size(group_1,2)}, {'Labour Market', size(group_2,2)}, ...
+       {'Consumption and Orders', size(group_3,2)}, {'Orders and Inventories', size(group_4,2)}, ...
+       {'Money and Credit', size(group_5,2)}, {'Interest Rate and Exchange Rates', ...
+       size(group_6,2)}, {'Prices', size(group_7,2)}, {'Stock Market', size(group_8,2)}};
 
    addpath '/Users/giuliadesanctis/Documents/MATLAB/EiDA/functions/eida'
-   compute_leading_eigen_pearson_mod(all_groups,100, true, group_size, label_names) 
-   % no idea if 10 is an acceptable size for half window size
+   compute_leading_eigen_pearson_mod(all_groups,100, true, specifics) 
+   % no idea if 100 is an acceptable size for half window size
+
+  %% Quick guide for myself on how to access multicells 
+  % Using the above example of specifics
+  % specifics{1,i} gives you the i-th component of the cell, printing out both the label 
+  % and the dimension 
+
+  % specifics{1,i} {1,j} gives you the j-th element of the i-th component
+  % of a cell
+  % e.g. specifics{1,1}(1,1) prints {'Output and Income'} and
+  % specifics{1,1}(1,2) prints out {[17]}
+
+% specifics{i}{2}; % extract the number 
+
+  

@@ -17,13 +17,16 @@ end
 % add the group labels to the x-axis
 xticks(label_pos);
 xticklabels(lab_names);
+xline(label_pos, 'LineWidth', 2); % this can easily be deleted if you don't like the grid 
 
 % add the group labels to the y-axis
 yticks(label_pos);
 yticklabels(lab_names);
+yline(label_pos, 'LineWidth', 2); % this can easily be deleted if you don't like the grid 
 
-% rotate the x-axis labels by 90 degrees for readability
-xtickangle(90);
+% rotate both the x-axis and the y-axis labels by 45 degrees for readability
+ytickangle(45);
+xtickangle(45);
 
 % add a colorbar to show the color scale
 colorbar;

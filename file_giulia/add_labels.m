@@ -9,9 +9,11 @@ function add_labels (n, g_size, lab_names)
 
 % We need a vector which stores the label positions for each group 
 label_pos = zeros(1,n);
-label_pos(1) = 1;
-for i = 2:n 
-    label_pos(i) = label_pos(i-1)+g_size(i-1);
+label_pos(1) = g_size(1)/2; 
+sum = 0; 
+for i = 2:n
+    sum = sum + g_size(i-1); 
+    label_pos(i) = sum + 0.5*g_size(i);
 end
 
 % add the group labels to the x-axis
@@ -20,6 +22,7 @@ xticklabels(lab_names);
 xline(label_pos, 'LineWidth', 2); % this can easily be deleted if you don't like the grid 
 
 % add the group labels to the y-axis
+ylim([0 sum+g_size(n)])
 yticks(label_pos);
 yticklabels(lab_names);
 yline(label_pos, 'LineWidth', 2); % this can easily be deleted if you don't like the grid 
@@ -30,8 +33,5 @@ xtickangle(45);
 
 % add a colorbar to show the color scale
 colorbar;
-
-% title 
-title('Plot of the covariance matrix')
 
 end

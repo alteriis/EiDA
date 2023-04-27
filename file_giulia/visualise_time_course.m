@@ -32,15 +32,25 @@ for i = 1:num
     end
 end
 
+label_pos = zeros(1,num);
+label_pos(1) = g_size(1)/2; 
+sum = 0; 
+for i = 2:num
+    sum = sum + g_size(i-1); 
+    label_pos(i) = sum + 0.5*g_size(i);
+end
 
 for i=1:n_rois
     plot((0:time_steps-1),norm_mat(:,i)+(i-1)*ones(time_steps,1), 'color', colors(i,:));
-    legend(label_names, 'Location', 'Best');
-    hold on
+    hold on;
 end
 
-yticks('');
+% add the group labels to the y-axis
+yticks(label_pos);
+yticklabels(label_names);
+ytickangle(45);
+
 xlabel('Time (s)');
-ylabel('Region');
+
 
 end

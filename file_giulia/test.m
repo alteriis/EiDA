@@ -27,19 +27,8 @@
        size(group_6,2)}, {'Prices', size(group_7,2)}, {'Stock Market', size(group_8,2)}};
 
    addpath '/Users/giuliadesanctis/Documents/MATLAB/EiDA/functions/eida'
-   compute_leading_eigen_pearson_mod(all_groups,100, true, specifics) 
+   compute_leading_eigen_sliding_window(all_groups,100, true, specifics,2) 
    % no idea if 100 is an acceptable size for half window size
 
-  %% Quick guide for myself on how to access multicells 
-  % Using the above example of specifics
-  % specifics{1,i} gives you the i-th component of the cell, printing out both the label 
-  % and the dimension 
-
-  % specifics{1,i} {1,j} gives you the j-th element of the i-th component
-  % of a cell
-  % e.g. specifics{1,1}(1,1) prints {'Output and Income'} and
-  % specifics{1,1}(1,2) prints out {[17]}
-
-% specifics{i}{2}; % extract the number 
-
+  
   

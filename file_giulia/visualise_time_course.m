@@ -25,10 +25,10 @@ end
 
 % create a separate colormap for each group
 colors = [];
+cmap = hsv(num);
 for i = 1:num
-    new = rand(1,3);
     for j = 1:g_size(i)
-        colors = [colors; new];
+        colors = [colors; cmap(i,:)];
     end
 end
 

@@ -53,16 +53,17 @@ for t=1:n
         % [left bottom width height]
         subplot('Position', [0.06 0.15 0.40 0.3])
         imagesc(timeseries);
-        add_labels(m,g_size, label_names);
+        add_labels(g_size, label_names, gca);
         title('Instantaneous Connectivity Matrix');
         
         subplot('Position', [0.55 0.15 0.44 0.3])
         visualise_time_course(timeseries, data_specific_info);
-        %xline(t, 'LineWidth', 2);
+        xline(t, 'LineWidth', 2);
+        hold off; 
         title('Signals Over Time');
 
         for i = 1:num_eigen
-            subplot(s,s/2,i)
+            subplot(s,ceil(s/2),i)
             imagesc(leading_eigenvectors((i-1)*n_channels+1:i*n_channels)'*leading_eigenvectors((i-1)*n_channels+1:i*n_channels));
             graph_title = sprintf('v%d', i);
             title(graph_title);

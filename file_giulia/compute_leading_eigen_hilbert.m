@@ -77,55 +77,69 @@ for t=1:n
     
     v1 = v1*sqrt(lambda1);
     v2 = v2*sqrt(lambda2);
-    
-    % we switch eigenvectors such that v1 is the leading one (the one with bigger eigenvalue) 
 
-    if(lambda2>lambda1)
+    % Eigenvectors multiplied by -1 are still eigenvectors. Thus, we invert
+    % them if needed in order to have a timeseries of eigenvectors which
+    % are all positively correlated. 
+    
+    if (num_eigen == 2)
+
+        if(lambda2>lambda1)  % we switch eigenvectors such that v1 is the leading one (the one with bigger eigenvalue) 
         tmp = v2;
         v2 = v1;
         v1 = tmp;
         eigenvalues(t) = lambda2;
-    end
-    
-    % Eigenvectors multiplied by -1 are still eigenvectors. Thus, we invert
-    % them if needed in order to have a timeseries of eigenvectors which
-    % are all positively correlated. 
+        end
 
-    if t>1 && (corr(v1,eigenvectors(1:n_channels,t-1))<0)
-        v1 = -v1;
-    end
-    
-    if t>1 && (corr(v2,eigenvectors(n_channels+1:end,t-1))<0)
+        if t>1 && (corr(v2,eigenvectors(n_channels+1:end,t-1))<0)
         v2 = -v2;
-    end
-   
-    % stack eigenvectors
+        end
 
-    eigenvectors(:,t) = [v1; v2]; 
+        eigenvectors(:,t) = [v1; v2]; 
+
+    else
+
+        if t>1 && (corr(v1,eigenvectors(1:n_channels,t-1))<0)
+        v1 = -v1;
+        end
+        
+        eigenvectors(:,t) = [v1];
     
+    end
+ 
     % if verbose, plot matrix
     if(verbose)
 
         subplot(2,3,1);
         imagesc(iPL);
         title(sprintf('iPL matrix, lambda1 = %d',lambda1));
-        subplot(2,3,3);
-        imagesc(v1*v1'+v2*v2');
-        title('reconstructed');
+        
         subplot(2,3,2);
         imagesc(v1*v1');
         title('v1');
-        subplot(2,3,4);
-        imagesc(v2*v2');
-        title('v2');
-        pause(0.15);
 
-        subplot(2,3,5);
+        if (num_eigen == 2)
+            subplot(2,3,3);
+            imagesc(v2*v2');
+            title('v2');
+            pause(0.1);
+
+            subplot(2,3,6);
+            imagesc(v1*v1'+v2*v2');
+            title('reconstructed');
+        
+        else
+            subplot(2,3,6);
+            imagesc(v1*v1');
+            title('reconstructed'); % Is is even worth plotting in this case? Because it's just the same as V1
+        end
+
+        subplot(2,3,4);
         imagesc(timeseries);
-        add_labels(m,g_size, label_names);
+        add_labels(g_size, label_names, gca);
         title('Instantaneous Connectivity Matrix');
 
-        subplot(2,3,6);
+        subplot(2,3,5);
         visualise_time_course(timeseries, data_specific_info);
         xline(t, 'LineWidth', 2);
         hold off
@@ -141,9 +155,4 @@ eigenvalues = eigenvalues(2:end-1);
 
 end
 
-% PROBLEM 1: we have an issue that if we draw all six graphs on the same 
-% plot then the lines keep changing color, can we maybe do two figures? No
-% we can't because at that point it flickers constantly between the two
-% figures. How to fix this?
 
-% PROBLEM 2: if I add the line, all the other plots become static

@@ -1,4 +1,4 @@
-function add_labels (n, g_size, lab_names)
+function add_labels (g_size, lab_names, ax)
 
 % this function adds labels to a matrix
 % inputs:
@@ -8,6 +8,7 @@ function add_labels (n, g_size, lab_names)
 % "lab_names": is a cell where the label names are contained
 
 % We need a vector which stores the label positions for each group 
+n = size(g_size,2);
 label_pos = zeros(1,n);
 label_pos(1) = g_size(1)/2; 
 sum = 0; 
@@ -17,21 +18,21 @@ for i = 2:n
 end
 
 % add the group labels to the x-axis
-xticks(label_pos);
-xticklabels(lab_names);
-xline(label_pos, 'LineWidth', 2); % this can easily be deleted if you don't like the grid 
+xticks(ax, label_pos);
+xticklabels(ax, lab_names);
+xline(ax, label_pos, 'LineWidth', 2); 
 
 % add the group labels to the y-axis
-ylim([0 sum+g_size(n)])
-yticks(label_pos);
-yticklabels(lab_names);
-yline(label_pos, 'LineWidth', 2); % this can easily be deleted if you don't like the grid 
+ylim(ax, [0 sum+g_size(n)])
+yticks(ax, label_pos);
+yticklabels(ax, lab_names);
+yline(ax, label_pos, 'LineWidth', 2); 
 
 % rotate both the x-axis and the y-axis labels by 45 degrees for readability
-ytickangle(45);
-xtickangle(45);
+ytickangle(ax, 45);
+xtickangle(ax, 45);
 
 % add a colorbar to show the color scale
-colorbar;
+colorbar (ax);
 
 end

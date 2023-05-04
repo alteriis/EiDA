@@ -1,4 +1,4 @@
-function leading_eigenvectors = compute_leading_eigen_sliding_window(timeseries,half_window_size,verbose, data_specific_info, num_eigen) 
+function leading_eigenvectors = compute_leading_eigen_sliding_window(timeseries,half_window_size,verbose, data_specific_info, num_eigen)
 % here I compute pearson correlation matrices using a sliding window. Then
 % I take eigenvectors to do dimensionality reduction
 
@@ -10,7 +10,6 @@ if num_eigen > 2*half_window_size
     error('Number of requested eigenvectors is too large');
 end
 
-s = floor(2* sqrt(half_window_size));
 
 n_channels = size(timeseries,2);
 n = size(timeseries,1);
@@ -18,14 +17,14 @@ m = size(data_specific_info,2);
 
 leading_eigenvectors = zeros(n_channels*num_eigen,n);
 
-% we extract the group size and labels for each individual group from the cell 
+% we extract the group size and labels for each individual group from the cell
 g_size = zeros(1,m);
 label_names = cell(1,m,1);
 
 for i=1:m
     g_size(i) = cell2mat(data_specific_info{1,i}(1,2));
     label_names(i) = data_specific_info{1,i}(1,1);
-end 
+end
 
 if(verbose)
     figure('units','normalized','outerposition',[0 0 1 1]); %this sets the figure to be full screen
@@ -36,7 +35,7 @@ for t=1:n
     upper_bound = min(t+half_window_size,n);
     istantaneous_conn_matrix= corrcoef(timeseries(lower_bound:upper_bound,:));
 
-     % Gathering eigenvectors (columns of v) and eigenvalues (diagonal of a)
+    % Gathering eigenvectors (columns of v) and eigenvalues (diagonal of a)
     [v,a] = eigs(istantaneous_conn_matrix,num_eigen);
 
     eigen_val = diag(a);
@@ -46,7 +45,7 @@ for t=1:n
     end
 
     for k = 1:num_eigen
-       leading_eigenvectors((k-1)*n_channels+1:k*n_channels, t) = v(:,k);
+        leading_eigenvectors((k-1)*n_channels+1:k*n_channels, t) = v(:,k);
     end
 
     if(verbose)
@@ -55,24 +54,27 @@ for t=1:n
         imagesc(timeseries);
         add_labels(g_size, label_names, gca);
         title('Instantaneous Connectivity Matrix');
-        
+
         subplot('Position', [0.55 0.15 0.44 0.3])
         visualise_time_course(timeseries, data_specific_info);
         xline(t, 'LineWidth', 2);
-        hold off; 
+        hold off;
         title('Signals Over Time');
 
+        [a,b] = two_factors(num_eigen);
+        
         for i = 1:num_eigen
-            subplot(s,ceil(s/2),i)
+            subplot(2*a,b,i)
             imagesc(leading_eigenvectors((i-1)*n_channels+1:i*n_channels)'*leading_eigenvectors((i-1)*n_channels+1:i*n_channels));
             graph_title = sprintf('v%d', i);
             title(graph_title);
         end
-       
-        end
-        
-        
+
+        pause(0.1);
     end
+
+
+end
 
 end
 

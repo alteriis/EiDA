@@ -144,6 +144,8 @@ for t=1:n
         xline(t, 'LineWidth', 2);
         hold off
         title('Signals Over Time');
+
+        pause(0.1);
     end
 
    end

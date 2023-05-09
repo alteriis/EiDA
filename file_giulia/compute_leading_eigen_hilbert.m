@@ -45,7 +45,6 @@ for t=1:n
 
     % for each time point, compute the iPL matrix, and the c and s vectors (see paper) that 
     % allow the computation of eigenvalues and eigenvectors
-    
     c = cos(timeseries(t,:))';
     s = sin(timeseries(t,:))';
     iPL = c*c' + s*s';
@@ -124,22 +123,18 @@ for t=1:n
             title('v2');
             pause(0.1);
 
-            subplot(2,3,6);
+            subplot(2,3,4);
             imagesc(v1*v1'+v2*v2');
             title('reconstructed');
         
         else
-            subplot(2,3,6);
+            subplot(2,3,4);
             imagesc(v1*v1');
             title('reconstructed'); % Is is even worth plotting in this case? Because it's just the same as V1
         end
 
-        subplot(2,3,4);
-        imagesc(timeseries);
-        add_labels(g_size, label_names, gca);
-        title('Instantaneous Connectivity Matrix');
-
-        subplot(2,3,5);
+        
+        subplot(2,3,[5,6]);
         visualise_time_course(timeseries, data_specific_info);
         xline(t, 'LineWidth', 2);
         hold off

@@ -10,7 +10,6 @@ if num_eigen > 2*half_window_size
     error('Number of requested eigenvectors is too large');
 end
 
-
 n_channels = size(timeseries,2);
 n = size(timeseries,1);
 m = size(data_specific_info,2);

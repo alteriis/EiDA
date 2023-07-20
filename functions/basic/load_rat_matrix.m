@@ -5,9 +5,7 @@ function [token,data] = load_rat_matrix(age,subj,verbose)
 %and the subject number (1 to 48). It loads the parcellated data in a
 %matrix where each column is a signal
 
-% NOTE: this could have been done in a more elegant way by saying 
-%msg = 'Error occurred.';
-%error(msg)
+
 
 if (subj<10)
     foldername = sprintf('/data/project/brain/RESILIENT/AGEING/T%d/derived/A0%d/rs',age,subj);

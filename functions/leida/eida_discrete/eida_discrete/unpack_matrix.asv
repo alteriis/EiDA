@@ -1,0 +1,21 @@
+function matrix = unpack_matrix(m,dim)
+
+matrix = ones(dim,dim);
+ind = 1;
+for column=2:dim
+    for row=1:column-1
+        matrix(row,column) = m(ind);
+        ind = ind+1;
+    end
+end
+
+% reflect the matrix on the diagonal
+
+for row=2:dim
+    for column=1:dim
+        
+    end
+end
+
+end
+

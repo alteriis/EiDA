@@ -11,7 +11,6 @@ destination_folder = '../../data/example_fmri_discrete_eida';
 
 % please specify n of clusters
 n_clusters = 4;
-N = 44; % number of signals
 
 %% discrete EiDA (clustering of eigenvectors)
 
@@ -27,15 +26,22 @@ for i=1:numel(elements_in_dir)
         list_names{end+1} = elements_in_dir(i).name;
         eigenvectors = eigenvectors{1};
         durations = [durations size(eigenvectors,2)];
-        eigenvectors_concatenated = [eigenvectors_concatenated;eigenvectors(1:N,:)']; % i transpose because k means wants this format. Note that I'm taking only the leading eigenvvetor
+        eigenvectors_concatenated = [eigenvectors_concatenated;eigenvectors']; % i transpose because k means wants this format.
     end
 end
+
+% I take only the leading eigenvector here 
+
+N = size(eigenvectors_concatenated,2)/2;
+eigenvectors_concatenated = eigenvectors_concatenated(:,1:N);
 
 % note: here I am using just the leading eigenvector (indeed I take
 % eigenvectors(1:N). to perform classic MAtlab implemented kmeans. If you
 % want to run the clustering as in the paper, DONT STACK the 2
 % eigenvectors, it will not work. You will have to run the discrete eida
-% algorithm (see functions of the paper)
+% algorithm (see functions of the paper)...soon releasing a lot of
+% different options for discrete eida clustering with options for
+% clustering algorithm+distances
 
 [idx, centroids, sum_distances, d]=kmeans(eigenvectors_concatenated,n_clusters,'Distance','Cosine','Replicates',300,'MaxIter',400,'Display','final','Options',statset('UseParallel',1));
 

@@ -28,7 +28,12 @@ for i=1:numel(elements_in_dir)
 end
 
 
+%% compute spectral metastability
 
+% note that spectral metastability is the standard deviation of the first
+% eigenvalue, so: 
+
+spectral_meta = std(p1);
 
 
 
